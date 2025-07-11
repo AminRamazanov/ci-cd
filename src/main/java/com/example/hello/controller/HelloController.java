@@ -8,7 +8,9 @@ public class HelloController {
 
     @GetMapping("/")
     public String hello() {
-        return "Hello, CI/CD is working!";
+        return "Hello, CI/CD is working!" +
+                "Hello, CI/CD is working!" +
+                "Hello, CI/CD is working!";
 
     }
 }
