@@ -33,9 +33,9 @@ class HelloControllerTest {
     }
 
     @Test
-    void welcomeEndpointReturnsExpectedText() {
-        String body = restTemplate.getForObject("/welcome", String.class);
-        assertThat(body).isEqualTo("Welcome!");
+    void welcomeeEndpointReturnsExpectedText() {
+        String body = restTemplate.getForObject("/welcomee", String.class);
+        assertThat(body).isEqualTo("Welcomee!");
     }
 }
 

@@ -24,9 +24,9 @@ public class HelloController {
         return "HelloWorld!";
     }
 
-    @GetMapping("/welcome")
-    public String welcome(){
-        return "Welcome!";
+    @GetMapping("/welcomee")
+    public String welcomee(){
+        return "Welcomee!";
     }
 }
 
