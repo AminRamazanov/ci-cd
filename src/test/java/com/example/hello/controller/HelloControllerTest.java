@@ -25,5 +25,11 @@ class HelloControllerTest {
         String body = restTemplate.getForObject("/goodBye", String.class);
         assertThat(body).isEqualTo("Goodbye!");
     }
+
+    @Test
+    void helloWorldEndpointReturnsExpectedText() {
+        String body = restTemplate.getForObject("/helloWorld", String.class);
+        assertThat(body).isEqualTo("HelloWorld!");
+    }
 }
 

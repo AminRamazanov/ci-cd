@@ -18,5 +18,10 @@ public class HelloController {
     public String goodBye(){
         return "Goodbye!";
     }
+
+    @GetMapping("/helloWorld")
+    public String helloWorld(){
+        return "HelloWord!";
+    }
 }
 
