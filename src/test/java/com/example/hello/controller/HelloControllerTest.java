@@ -17,7 +17,13 @@ class HelloControllerTest {
     @Test
     void helloEndpointReturnsExpectedText() {
         String body = restTemplate.getForObject("/", String.class);
-        assertThat(body).isEqualTo("Hello, CI/CD is working!");
+        assertThat(body).isEqualTo("Hello, CI/CD is working!Hello, CI/CD is working!Hello, CI/CD is working!");
+    }
+
+    @Test
+    void goodbyeEndpointReturnsExpectedText() {
+        String body = restTemplate.getForObject("/goodBye", String.class);
+        assertThat(body).isEqualTo("Goodbye!");
     }
 }
 
