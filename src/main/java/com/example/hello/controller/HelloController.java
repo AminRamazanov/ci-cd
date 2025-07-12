@@ -13,5 +13,10 @@ public class HelloController {
                 "Hello, CI/CD is working!";
 
     }
+
+    @GetMapping("/goodBye")
+    public String goodBye(){
+        return "Goodbye!";
+    }
 }
 
