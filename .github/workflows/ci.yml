@@ -2,7 +2,7 @@ name: CI Build (Gradle)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "future" ]
   pull_request:
     branches: [ "main" ]
 
