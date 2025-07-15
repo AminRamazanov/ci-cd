@@ -28,20 +28,18 @@ class OrderControllerTest {
         orderDto.setQuantity(1);
         orderDto.setPrice(BigDecimal.valueOf(100));
 
-        ResponseEntity<Void> createResponse = restTemplate.postForEntity(
-                "http://localhost:" + port + "/order", orderDto, Void.class);
+        // Создаем заказ и получаем ID из ответа
+        ResponseEntity<Long> createResponse = restTemplate.postForEntity(
+                "http://localhost:" + port + "/order", orderDto, Long.class);
         assertThat(createResponse.getStatusCode().is2xxSuccessful()).isTrue();
+        Long id = createResponse.getBody();
+        assertThat(id).isNotNull();
 
-        // Тут обычно нужно получить id, но для простоты берём последнее сохранённое
-        ResponseEntity<OrderDto[]> allOrders = restTemplate.getForEntity(
-                "http://localhost:" + port + "/order", OrderDto[].class);
-        assertThat(allOrders.getBody()).isNotEmpty();
-
-        // Предполагаем, что последний созданный заказ можно проверить так:
-        Long id = allOrders.getBody()[allOrders.getBody().length - 1].getId();
+        // Получаем заказ по ID
         ResponseEntity<OrderDto> getByIdResponse = restTemplate.getForEntity(
                 "http://localhost:" + port + "/order/" + id, OrderDto.class);
         assertThat(getByIdResponse.getBody()).isNotNull();
         assertThat(getByIdResponse.getBody().getName()).isEqualTo("Controller Test Product");
     }
+
 }

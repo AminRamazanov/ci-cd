@@ -14,6 +14,7 @@ public class OrderController {
 
     @PostMapping
     public void createOrder(@RequestBody OrderDto orderDto){
+        System.out.println("hello");
         orderService.createOrder(orderDto);
     }
 
