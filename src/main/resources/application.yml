@@ -2,23 +2,27 @@ spring:
   application:
     name: Hello
 
-
   datasource:
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
-    url: ${POSTGRES_URL}
+    url: jdbc:postgresql://data-base:5432/postgres
+    username: user
+    password: user123
 
-  data:
-    redis:
-      host: ${REDIS_HOST}
-      port: ${REDIS_PORT}
-      password: ${REDIS_PASSWORD}
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+
+#  data:
+#    redis:
+#      host: ${REDIS_HOST}
+#      port: ${REDIS_PORT}
+#      password: ${REDIS_PASSWORD}
 
   rabbitmq:
-    addresses: ${RABBITMQ_URL}
-    username: ${RABBITMQ_USERNAME}
-    password: ${RABBITMQ_PASSWORD}
-
-  jpa:
-    hibernate:
-      ddl-auto: update
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest

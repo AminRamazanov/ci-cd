@@ -4,6 +4,8 @@ import com.example.hello.dao.OrderEntity;
 import com.example.hello.dao.repository.OrderRepository;
 import com.example.hello.mapper.OrderMapper;
 import com.example.hello.model.OrderDto;
+import com.example.hello.model.response.PaymentDto;
+import com.example.hello.rabbit.MessageProducer;
 import com.example.hello.service.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.math.BigDecimal;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final MessageProducer messageProducer;
 
     @Override
     public void createOrder(OrderDto orderDto) {
@@ -28,8 +31,10 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("Price must be greater than 0");
         }
 
-        orderEntity = orderRepository.save(orderEntity);
-
+        PaymentDto paymentDto = PaymentDto.builder()
+                .name(orderEntity.getName())
+                .price(orderEntity.getPrice()).build();
+        messageProducer.sendPayment(paymentDto);
         log.info("Action.log.createOrder ended for order {}", orderDto.getId());
 
     }
@@ -42,5 +47,9 @@ public class OrderServiceImpl implements OrderService {
         OrderDto orderDto = orderMapper.toDto(orderEntity);
         log.info("Action.log.getById ended for order {}", id);
         return orderDto;
+    }
+
+    public void check(){
+        System.out.println("check");
     }
 }
