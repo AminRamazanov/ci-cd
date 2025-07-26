@@ -1,36 +1,47 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: postgres
+  name: myapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: myapp
   template:
     metadata:
       labels:
-        app: postgres
+        app: myapp
     spec:
       containers:
-        - name: postgres
-          image: postgres:15
+        - name: myapp
+          image: aminramazanov/myapp:latest
           ports:
-            - containerPort: 5432
+            - containerPort: 8080
           env:
-            - name: POSTGRES_USER
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/postgres
+            - name: SPRING_DATASOURCE_USERNAME
               value: user
-            - name: POSTGRES_PASSWORD
+            - name: SPRING_DATASOURCE_PASSWORD
               value: user123
-            - name: POSTGRES_DB
-              value: postgres
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"
+            - name: SPRING_RABBITMQ_USERNAME
+              value: guest
+            - name: SPRING_RABBITMQ_PASSWORD
+              value: guest
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: myapp
 spec:
   selector:
-    app: postgres
+    app: myapp
+  type: NodePort
   ports:
-    - port: 5432
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080  # 👈 Можешь зайти на localhost:30080

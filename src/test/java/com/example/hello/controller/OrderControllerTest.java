@@ -36,4 +36,12 @@ class OrderControllerTest {
         assertThat(response.getBody()).isEqualTo("Bye");
     }
 
+    @Test
+    void privetEndpoint_shouldReturnPrivet() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/privet", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("Privet");
+    }
+
 }

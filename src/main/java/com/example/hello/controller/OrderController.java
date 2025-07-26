@@ -19,5 +19,9 @@ public class OrderController {
         return "Bye";
     }
 
+    @GetMapping("/privet")
+    public String privet(){
+        return "Privet";
+    }
 }
 
