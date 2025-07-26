@@ -6,12 +6,11 @@ import com.example.hello.mapper.OrderMapper;
 import com.example.hello.model.OrderDto;
 import com.example.hello.rabbit.MessageProducer;
 import com.example.hello.service.impl.OrderServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
@@ -20,7 +19,7 @@ import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class OrderServiceTest {
 
@@ -30,14 +29,14 @@ class OrderServiceTest {
     @Mock
     private MessageProducer messageProducer;
 
-    private OrderMapper orderMapper = Mappers.getMapper(OrderMapper.class);
+    private final OrderMapper orderMapper = Mappers.getMapper(OrderMapper.class);
 
-    @InjectMocks
     private OrderServiceImpl orderService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        orderService = new OrderServiceImpl(orderRepository, orderMapper, messageProducer);
     }
 
     @Test
@@ -59,7 +58,7 @@ class OrderServiceTest {
 
         orderService.createOrder(dto);
 
-        Mockito.verify(messageProducer).sendPayment(any());
+        verify(messageProducer).sendPayment(any());
     }
 
     @Test

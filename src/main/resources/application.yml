@@ -7,13 +7,12 @@ spring:
     username: user
     password: user123
 
-    jpa:
-      show-sql: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
       hibernate:
-        ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 #  data:
 #    redis:
