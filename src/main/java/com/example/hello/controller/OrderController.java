@@ -17,6 +17,11 @@ public class OrderController {
         orderService.createOrder(orderDto);
     }
 
+    @GetMapping("/hello")
+    public String hello(){
+        return "Hello";
+    }
+
     @GetMapping("/{id}")
     public OrderDto getById(@PathVariable Long id){
         return orderService.getById(id);

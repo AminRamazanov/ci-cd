@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class OrderControllerTest {
@@ -28,18 +28,23 @@ class OrderControllerTest {
         orderDto.setQuantity(1);
         orderDto.setPrice(BigDecimal.valueOf(100));
 
-        // Создаем заказ и получаем ID из ответа
         ResponseEntity<Long> createResponse = restTemplate.postForEntity(
                 "http://localhost:" + port + "/order", orderDto, Long.class);
         assertThat(createResponse.getStatusCode().is2xxSuccessful()).isTrue();
         Long id = createResponse.getBody();
         assertThat(id).isNotNull();
 
-        // Получаем заказ по ID
         ResponseEntity<OrderDto> getByIdResponse = restTemplate.getForEntity(
                 "http://localhost:" + port + "/order/" + id, OrderDto.class);
         assertThat(getByIdResponse.getBody()).isNotNull();
         assertThat(getByIdResponse.getBody().getName()).isEqualTo("Controller Test Product");
     }
 
+    @Test
+    void helloEndpoint_shouldReturnHello() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/hello", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("Hello");
+    }
 }
