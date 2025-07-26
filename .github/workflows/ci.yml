@@ -24,6 +24,8 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build and Test with Gradle
+        env:
+          SPRING_PROFILES_ACTIVE: ci
         run: ./gradlew build --no-daemon
 
       - name: Log in to Docker Hub
