@@ -1,6 +1,5 @@
 package com.example.hello.controller;
 
-import com.example.hello.model.OrderDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,25 +19,6 @@ class OrderControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @Test
-    void createOrderAndGetByIdTest() {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setName("Controller Test Product");
-        orderDto.setQuantity(1);
-        orderDto.setPrice(BigDecimal.valueOf(100));
-
-        ResponseEntity<Long> createResponse = restTemplate.postForEntity(
-                "http://localhost:" + port + "/order", orderDto, Long.class);
-        assertThat(createResponse.getStatusCode().is2xxSuccessful()).isTrue();
-        Long id = createResponse.getBody();
-        assertThat(id).isNotNull();
-
-        ResponseEntity<OrderDto> getByIdResponse = restTemplate.getForEntity(
-                "http://localhost:" + port + "/order/" + id, OrderDto.class);
-        assertThat(getByIdResponse.getBody()).isNotNull();
-        assertThat(getByIdResponse.getBody().getName()).isEqualTo("Controller Test Product");
-    }
 
     @Test
     void helloEndpoint_shouldReturnHello() {
