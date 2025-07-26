@@ -43,7 +43,7 @@ class OrderControllerTest {
     @Test
     void helloEndpoint_shouldReturnHello() {
         ResponseEntity<String> response = restTemplate.getForEntity(
-                "http://localhost:" + port + "/hello", String.class);
+                "http://localhost:" + port + "/order/hello", String.class);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody()).isEqualTo("Hello");
     }
@@ -51,8 +51,9 @@ class OrderControllerTest {
     @Test
     void byeEndpoint_shouldReturnBye() {
         ResponseEntity<String> response = restTemplate.getForEntity(
-                "http://localhost:" + port + "/bye", String.class);
+                "http://localhost:" + port + "/order/bye", String.class);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody()).isEqualTo("Bye");
     }
+
 }

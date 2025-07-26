@@ -23,7 +23,7 @@ public class OrderServiceImpl implements OrderService {
     private final MessageProducer messageProducer;
 
     @Override
-    public void createOrder(OrderDto orderDto) {
+    public Long createOrder(OrderDto orderDto) {
         log.info("Action.log.createOrder started for order {}", orderDto.getId());
 
         OrderEntity orderEntity = orderMapper.toEntity(orderDto);
@@ -31,13 +31,18 @@ public class OrderServiceImpl implements OrderService {
             throw new IllegalArgumentException("Price must be greater than 0");
         }
 
-        PaymentDto paymentDto = PaymentDto.builder()
-                .name(orderEntity.getName())
-                .price(orderEntity.getPrice()).build();
-        messageProducer.sendPayment(paymentDto);
-        log.info("Action.log.createOrder ended for order {}", orderDto.getId());
+        OrderEntity savedOrder = orderRepository.save(orderEntity);
 
+        PaymentDto paymentDto = PaymentDto.builder()
+                .name(savedOrder.getName())
+                .price(savedOrder.getPrice())
+                .build();
+        messageProducer.sendPayment(paymentDto);
+        log.info("Action.log.createOrder ended for order {}", savedOrder.getId());
+
+        return savedOrder.getId();
     }
+
 
     @Override
     public OrderDto getById(Long id) {

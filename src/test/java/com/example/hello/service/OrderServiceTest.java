@@ -56,10 +56,21 @@ class OrderServiceTest {
         dto.setName("Valid Product");
         dto.setQuantity(2);
 
-        orderService.createOrder(dto);
+        OrderEntity savedEntity = OrderEntity.builder()
+                .id(1L)
+                .name(dto.getName())
+                .quantity(dto.getQuantity())
+                .price(dto.getPrice())
+                .build();
+
+        when(orderRepository.save(any(OrderEntity.class))).thenReturn(savedEntity);
+
+        Long id = orderService.createOrder(dto);
 
         verify(messageProducer).sendPayment(any());
+        assertThat(id).isEqualTo(1L);
     }
+
 
     @Test
     void getById_shouldReturnOrderDto() {

@@ -12,9 +12,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public void createOrder(@RequestBody OrderDto orderDto){
-        System.out.println("hello");
-        orderService.createOrder(orderDto);
+    public Long createOrder(@RequestBody OrderDto orderDto){
+        return orderService.createOrder(orderDto);
     }
 
     @GetMapping("/hello")
