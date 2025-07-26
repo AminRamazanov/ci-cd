@@ -47,4 +47,12 @@ class OrderControllerTest {
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody()).isEqualTo("Hello");
     }
+
+    @Test
+    void byeEndpoint_shouldReturnBye() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/bye", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("Bye");
+    }
 }

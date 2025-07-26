@@ -22,6 +22,11 @@ public class OrderController {
         return "Hello";
     }
 
+    @GetMapping("/bye")
+    public String bye(){
+        return "Bye";
+    }
+
     @GetMapping("/{id}")
     public OrderDto getById(@PathVariable Long id){
         return orderService.getById(id);
