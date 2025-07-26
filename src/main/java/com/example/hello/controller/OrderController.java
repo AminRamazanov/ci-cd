@@ -23,5 +23,10 @@ public class OrderController {
     public String privet(){
         return "Privet";
     }
+
+    @GetMapping("/kakDela")
+    public String kakDela(){
+        return "kakDela";
+    }
 }
 

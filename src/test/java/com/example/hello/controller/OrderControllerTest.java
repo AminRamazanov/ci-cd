@@ -44,4 +44,12 @@ class OrderControllerTest {
         assertThat(response.getBody()).isEqualTo("Privet");
     }
 
+    @Test
+    void kakDelaEndpoint_shouldReturnKakDela() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/kakDela", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("kakDela");
+    }
+
 }
