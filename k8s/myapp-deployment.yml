@@ -1,33 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-app
+  name: postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spring-app
+      app: postgres
   template:
     metadata:
       labels:
-        app: spring-app
+        app: postgres
     spec:
       containers:
-        - name: spring-app
-          image: myapp
-          imagePullPolicy: IfNotPresent
+        - name: postgres
+          image: postgres:15
           ports:
-            - containerPort: 8080
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: user123
+            - name: POSTGRES_DB
+              value: postgres
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-app
+  name: postgres
 spec:
   selector:
-    app: spring-app
+    app: postgres
   ports:
-    - port: 8080
-      targetPort: 8080
-      nodePort: 30080
-  type: NodePort
+    - port: 5432
