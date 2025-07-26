@@ -28,5 +28,10 @@ public class OrderController {
     public String kakDela(){
         return "kakDela";
     }
+
+    @GetMapping("/k")
+    public String k(){
+        return "k";
+    }
 }
 
