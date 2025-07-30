@@ -68,4 +68,12 @@ class OrderControllerTest {
         assertThat(response.getBody()).isEqualTo("b");
     }
 
+    @Test
+    void zEndpoint_shouldReturnZ() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/z", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("z");
+    }
+
 }

@@ -38,5 +38,10 @@ public class OrderController {
     public String b(){
         return "b";
     }
+
+    @GetMapping("/z")
+    public String z(){
+        return "z";
+    }
 }
 
