@@ -1,16 +1,23 @@
 spring:
+  application:
+    name: Hello
   datasource:
-    url: jdbc:postgresql://postgres:5432/postgres
-    username: user
-    password: user123
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  rabbitmq:
-    host: rabbitmq
-    port: 5672
-    username: guest
-    password: guest
+
+
+USER_NAME: ${USER_NAME}
+USER_SURNAME: ${USER_SURNAME}
+USER_EMAIL: ${USER_EMAIL}
+
+#user:
+#  name: ${USER_NAME}
+#  surname: ${USER_SURNAME}
+#  email: ${USER_EMAIL}

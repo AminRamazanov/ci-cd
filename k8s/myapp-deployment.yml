@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp
+  labels:
+    app: myapp
   annotations:
     keel.sh/policy: force
     keel.sh/trigger: poll
@@ -22,21 +24,47 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://postgres:5432/postgres
-            - name: SPRING_DATASOURCE_USERNAME
-              value: user
-            - name: SPRING_DATASOURCE_PASSWORD
-              value: user123
-            - name: SPRING_RABBITMQ_HOST
-              value: rabbitmq
-            - name: SPRING_RABBITMQ_PORT
-              value: "5672"
-            - name: SPRING_RABBITMQ_USERNAME
-              value: guest
-            - name: SPRING_RABBITMQ_PASSWORD
-              value: guest
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config
+                  key: POSTGRES_URL
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: USER_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: user-config
+                  key: USER_NAME
+            - name: USER_SURNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: user-config
+                  key: USER_SURNAME
+            - name: USER_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: user-config
+                  key: USER_EMAIL
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
 ---
+
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -44,8 +72,28 @@ metadata:
 spec:
   selector:
     app: myapp
-  type: NodePort
   ports:
-    - port: 8080
+    - protocol: TCP
+      port: 8080
       targetPort: 8080
-      nodePort: 30080
+  type: ClusterIP
+
+---
+
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hello-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: curl
+              image: curlimages/curl:latest
+              args: [ "-s", "http://myapp:8080/order/hello" ]
+          restartPolicy: OnFailure
