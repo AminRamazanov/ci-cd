@@ -18,8 +18,8 @@ public class OrderController {
 
     @GetMapping("/hello")
     public String hello() {
-//        User user = new User(name, surname, email);
-//        System.out.println(user);
+        User user = new User(name, surname, email);
+        System.out.println(user);
         System.out.println("hello");
         System.out.println("hello"+ surname);
         return "Hello";

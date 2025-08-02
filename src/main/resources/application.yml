@@ -13,9 +13,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 
-USER_NAME: ${USER_NAME}
-USER_SURNAME: ${USER_SURNAME}
-USER_EMAIL: ${USER_EMAIL}
+USER_NAME: ${USER_NAME:Amin}
+USER_SURNAME: ${USER_SURNAME:Ramazanov}
+USER_EMAIL: ${USER_EMAILbaku@mail.ru}
 
 #user:
 #  name: ${USER_NAME}
