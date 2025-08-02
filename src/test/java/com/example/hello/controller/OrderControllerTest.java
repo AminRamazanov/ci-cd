@@ -1,18 +1,22 @@
 package com.example.hello.controller;
 
-import com.example.hello.model.OrderDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)@TestPropertySource(properties = {
+        "USER_NAME=John",
+        "USER_SURNAME=Doe",
+        "USER_EMAIL=john@example.com"
+})
 class OrderControllerTest {
 
     @LocalServerPort
@@ -22,26 +26,67 @@ class OrderControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    void createOrderAndGetByIdTest() {
-        OrderDto orderDto = new OrderDto();
-        orderDto.setName("Controller Test Product");
-        orderDto.setQuantity(1);
-        orderDto.setPrice(BigDecimal.valueOf(100));
-
-        ResponseEntity<Void> createResponse = restTemplate.postForEntity(
-                "http://localhost:" + port + "/order", orderDto, Void.class);
-        assertThat(createResponse.getStatusCode().is2xxSuccessful()).isTrue();
-
-        // Тут обычно нужно получить id, но для простоты берём последнее сохранённое
-        ResponseEntity<OrderDto[]> allOrders = restTemplate.getForEntity(
-                "http://localhost:" + port + "/order", OrderDto[].class);
-        assertThat(allOrders.getBody()).isNotEmpty();
-
-        // Предполагаем, что последний созданный заказ можно проверить так:
-        Long id = allOrders.getBody()[allOrders.getBody().length - 1].getId();
-        ResponseEntity<OrderDto> getByIdResponse = restTemplate.getForEntity(
-                "http://localhost:" + port + "/order/" + id, OrderDto.class);
-        assertThat(getByIdResponse.getBody()).isNotNull();
-        assertThat(getByIdResponse.getBody().getName()).isEqualTo("Controller Test Product");
+    void helloEndpoint_shouldReturnHello() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/hello", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("Hello");
     }
+
+    @Test
+    void byeEndpoint_shouldReturnBye() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/bye", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("Bye");
+    }
+
+    @Test
+    void privetEndpoint_shouldReturnPrivet() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/privet", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("Privet");
+    }
+
+    @Test
+    void kakDelaEndpoint_shouldReturnKakDela() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/kakDela", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("kakDela");
+    }
+
+    @Test
+    void kEndpoint_shouldReturnK() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/k", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("k");
+    }
+
+    @Test
+    void bEndpoint_shouldReturnb() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/b", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("b");
+    }
+
+    @Test
+    void zEndpoint_shouldReturnZ() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/z", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("z");
+    }
+
+    @Test
+    void vEndpoint_shouldReturnV() {
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                "http://localhost:" + port + "/order/v", String.class);
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody()).isEqualTo("v");
+    }
+
 }

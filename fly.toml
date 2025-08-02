@@ -1,4 +1,4 @@
-app = "ci-cd"
+app = "ci-cd-2nymxw"
 
 [build]
 builder = "paketobuildpacks/builder:base"
